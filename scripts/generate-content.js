@@ -88,13 +88,12 @@ async function generateSEOContent(contentType) {
   const prompt = messages[contentType] || messages.all;
 
   // 嘗試的模型列表（按優先順序）
+  // 根據 Anthropic 官方文檔，正確的模型名稱格式
   const modelList = [
-    'claude-3-5-sonnet-20240620',
-    'claude-3-opus-20240229',
-    'claude-3-sonnet-20240229',
-    'claude-3-haiku-20240307',
-    'claude-sonnet-3-5',
-    'claude-3-5-sonnet-latest'
+    'claude-3-5-sonnet-20240620',  // Claude 3.5 Sonnet (最新)
+    'claude-3-opus-20240229',      // Claude 3 Opus
+    'claude-3-sonnet-20240229',    // Claude 3 Sonnet
+    'claude-3-haiku-20240307'      // Claude 3 Haiku (最快最便宜)
   ];
 
   let lastError = null;
