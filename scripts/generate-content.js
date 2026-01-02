@@ -150,56 +150,45 @@ function updateIndexFile(aiContent, contentType) {
       content = { raw: aiContent };
     }
 
-    // 更新 SEO 內容區域
-    if (contentType === 'all') {
-      // 更新主標題
-      const titleRegex = /(<h2 id="about-title">)[^<]*(<\/h2>)/;
-      if (titleRegex.test(indexContent) && content.mainTitle) {
-        indexContent = indexContent.replace(
-          titleRegex,
-          `$1${content.mainTitle}$2`
-        );
-        console.log('✅ 已更新主標題');
+    // 在現有 SEO 內容區域末尾新增內容（不替換現有內容）
+    const seoSectionEnd = indexContent.indexOf('</section>', indexContent.indexOf('seo-content'));
+    
+    if (seoSectionEnd !== -1) {
+      let newContent = '';
+      const timestamp = new Date().toISOString().split('T')[0];
+      
+      if (contentType === 'all' && content.mainTitle) {
+        // 生成結構化的新內容區塊
+        newContent = `
+        
+        <!-- AI 自動生成內容 - ${timestamp} -->
+        <div class="auto-generated-seo-content">
+          ${content.mainTitle ? `<h3>${content.mainTitle}</h3>` : ''}
+          ${content.mainParagraph ? `<p>${content.mainParagraph}</p>` : ''}
+          ${content.gamesTitle ? `<h4>${content.gamesTitle}</h4>` : ''}
+          ${content.gamesParagraph ? `<p>${content.gamesParagraph}</p>` : ''}
+          ${content.paymentTitle ? `<h4>${content.paymentTitle}</h4>` : ''}
+          ${content.paymentParagraph ? `<p>${content.paymentParagraph}</p>` : ''}
+        </div>
+        `;
+        console.log('✅ 已新增結構化 SEO 內容');
+      } else {
+        // 對於其他類型，添加原始內容
+        newContent = `
+        
+        <!-- AI 自動生成內容 - ${timestamp} -->
+        <div class="auto-generated-seo-content">
+          <p>${content.raw || aiContent}</p>
+        </div>
+        `;
+        console.log('✅ 已新增 SEO 內容');
       }
-
-      // 更新主段落（匹配多行段落）
-      const mainParaRegex = /(<p>\s*)(PV99[^<]*(?:\s*Yes8[^<]*)?)(<\/p>)/;
-      if (mainParaRegex.test(indexContent) && content.mainParagraph) {
-        indexContent = indexContent.replace(
-          mainParaRegex,
-          `$1${content.mainParagraph}$3`
-        );
-        console.log('✅ 已更新主段落');
-      }
-
-      // 更新遊戲段落
-      const gamesSectionRegex = /(<h3>)[^<]*(<\/h3>\s*<p>)([^<]+)(<\/p>)/;
-      const gamesMatch = indexContent.match(gamesSectionRegex);
-      if (gamesMatch && content.gamesTitle && content.gamesParagraph) {
-        indexContent = indexContent.replace(
-          gamesSectionRegex,
-          `$1${content.gamesTitle}$2${content.gamesParagraph}$4`
-        );
-        console.log('✅ 已更新遊戲段落');
-      }
-
-      // 更新支付段落
-      const paymentSectionRegex = /(<h3>လုံခြုံစိတ်ချရသော[^<]*<\/h3>\s*<p>)([^<]+)(<\/p>)/;
-      if (paymentSectionRegex.test(indexContent) && content.paymentTitle && content.paymentParagraph) {
-        indexContent = indexContent.replace(
-          paymentSectionRegex,
-          `$1${content.paymentParagraph}$3`
-        );
-        console.log('✅ 已更新支付段落');
-      }
+      
+      // 在 </section> 之前插入新內容
+      indexContent = indexContent.slice(0, seoSectionEnd) + newContent + '\n        ' + indexContent.slice(seoSectionEnd);
     } else {
-      // 對於其他類型，在 SEO 內容區域末尾添加新內容
-      const seoSectionEnd = indexContent.indexOf('</section>', indexContent.indexOf('seo-content'));
-      if (seoSectionEnd !== -1) {
-        const newContent = `\n        <div class="auto-generated-content">\n          <p>${content.raw}</p>\n        </div>\n        `;
-        indexContent = indexContent.slice(0, seoSectionEnd) + newContent + indexContent.slice(seoSectionEnd);
-        console.log('✅ 已添加新內容');
-      }
+      console.warn('⚠️  無法找到 SEO 內容區域，跳過更新');
+      return false;
     }
 
     // 寫回文件
