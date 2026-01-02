@@ -1,0 +1,694 @@
+---
+const title = "PV99 - မြန်မာ့အကောင်းဆုံး အွန်လိုင်းကာစီနို | Yes8, Ygn9, Pya777, Mmk99";
+const description = "PV99 တွင် မြန်မာနိုင်ငံအတွက် အကောင်းဆုံး အွန်လိုင်းကာစီနိုနှင့် စလော့ဂိမ်းများကို ကစားပါ။ Yes8, Ygn9, Pya777, Mmk99, Kbz999 အစရှိသော ယုံကြည်စိတ်ချရသော ပလက်ဖောင်းများ။";
+const keywords = "PV99, အွန်လိုင်းကာစီနို, မြန်မာကာစီနို, စလော့, Yes8, Ygn9, Pya777, Mmk99, Kbz999, Mmk123, Mmk8, online casino myanmar, slot games";
+const siteUrl = "https://pv99.com"; // 替換成你的實際域名
+const ogImage = "/images/og-image.jpg"; // 建議尺寸: 1200x630px
+
+const platforms = [
+  {
+    name: "Yes8",
+    code: "M18-Yes8",
+    affiliate: "seom1802",
+    url: "https://www.yes8.io/m/home?affiliateCode=seom1802",
+    description: "Yes8 အွန်လိုင်းကာစီနို - လုံခြုံပြီး ယုံကြဲစိတ်ချရသော ဂိမ်းများ"
+  },
+  {
+    name: "Ygn9",
+    code: "M19-Ygn9",
+    affiliate: "seom1902",
+    url: "https://www.ygn9.net/m/home?affiliateCode=seom1902",
+    description: "Ygn9 - မြန်မာ့ထိပ်တန်း အွန်လိုင်းလောင်းကစားပလက်ဖောင်း"
+  },
+  {
+    name: "Pya777",
+    code: "M20-Pya777",
+    affiliate: "seom2002",
+    url: "https://www.pya777.net/m/home?affiliateCode=seom2002",
+    description: "Pya777 ကာစီနို - အကောင်းဆုံး စလော့ဂိမ်းများ"
+  },
+  {
+    name: "Mmk99",
+    code: "M21-Mmk99",
+    affiliate: "seom2102",
+    url: "https://www.mmk99.net/m/home?affiliateCode=seom2102",
+    description: "Mmk99 - မြန်ဆန်သော ငွေသွင်း-ထုတ်မှု"
+  },
+  {
+    name: "Kbz999",
+    code: "M22-Kbz999",
+    affiliate: "seom2202",
+    url: "https://www.kbz999.net/m/home?affiliateCode=seom2202",
+    description: "Kbz999 အွန်လိုင်းကာစီနို - ဘောနပ်စများစွာ"
+  },
+  {
+    name: "Mmk123",
+    code: "M23-Mmk123",
+    affiliate: "seom2302",
+    url: "https://www.mmk123.net/m/home?affiliateCode=seom2302",
+    description: "Mmk123 - လူကြိုက်များသော ဂိမ်းများ"
+  },
+  {
+    name: "Mmk8",
+    code: "M24-Mmk8",
+    affiliate: "seom2401",
+    url: "https://www.mmk8.net/m/home?affiliateCode=seom2401",
+    description: "Mmk8 ကာစီနို - 24/7 ဝန်ဆောင်မှု"
+  }
+];
+
+const games = [
+  { name: "Rich Mahjong", badge: "16000x", provider: "Royal Slot Gaming", img: "rich-mahjong.jpg" },
+  { name: "Super Ace", badge: "1400x", provider: "Royal Slot Gaming", img: "super-ace.jpg" },
+  { name: "Fortune Gems", badge: "UP", provider: "GameArt", img: "fortune-gems.jpg" },
+  { name: "Money Coming", badge: "UP", provider: "GameArt", img: "money-coming.jpg" },
+  { name: "Fortune Gems 2", badge: "UP", provider: "Jili", img: "fortune-gems-2.jpg" },
+  { name: "Mahjong Ways 2", badge: "PG", provider: "Pocket Games Soft", img: "mahjong-ways-2.jpg" },
+  { name: "Buffalo King", badge: "12500x", provider: "Pragmatic Play", img: "buffalo-king.jpg" },
+  { name: "Golden Empire", badge: "UP", provider: "Habanero", img: "golden-empire.jpg" },
+  { name: "Prosperity Lion", badge: "UP", provider: "GameArt", img: "prosperity-lion.jpg" },
+  { name: "Sweet Bonanza", badge: "21000x", provider: "Pragmatic Play", img: "sweet-bonanza.jpg" },
+  { name: "Lucky Piggy", badge: "UP", provider: "GameArt", img: "lucky-piggy.jpg" },
+  { name: "Wild Shark", badge: "UP", provider: "GameArt", img: "wild-shark.jpg" }
+];
+
+const sidebarItems = [
+  { icon: "🏠", text: "ပင်မစာမျက်နှာ", href: "#home", active: true },
+  { icon: "📅", text: "စလော့", href: "#slots", active: false },
+  { icon: "🎰", text: "ဒိုင်းမိုင်း", href: "#casino", active: false },
+  { icon: "⚽", text: "အားကစား", href: "#sports", active: false },
+  { icon: "🎣", text: "ငါးပစ်ဂိမ်း", href: "#fishing", active: false },
+  { icon: "🃏", text: "ယီးပေး", href: "#poker", active: false },
+  { icon: "🎟️", text: "ထီထိုးနှင့်", href: "#lottery", active: false },
+  { icon: "📱", text: "APP ကိုဒေါင်းလုပ်ပါ", href: "#app", active: false },
+  { icon: "🎁", text: "ပရိုမုတ်", href: "#promote", active: false },
+  { icon: "🌐", text: "မြန်မာ 🇲🇲", href: "#language", active: false }
+];
+
+// Schema.org structured data for SEO
+const schemaOrg = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "PV99",
+  "description": description,
+  "url": siteUrl,
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": `${siteUrl}/search?q={search_term_string}`,
+    "query-input": "required name=search_term_string"
+  }
+};
+---
+
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>{title}</title>
+  <meta name="title" content={title}>
+  <meta name="description" content={description}>
+  <meta name="keywords" content={keywords}>
+  <meta name="author" content="PV99">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Myanmar">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href={siteUrl}>
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={siteUrl}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content={`${siteUrl}${ogImage}`}>
+  <meta property="og:site_name" content="PV99">
+  <meta property="og:locale" content="my_MM">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content={siteUrl}>
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={`${siteUrl}${ogImage}`}>
+  
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
+  
+  <!-- Preconnect to external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <!-- <link rel="icon" type="image/png" href="/favicon.png"> -->
+  <!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <h1 style="display: inline; font-size: inherit; font-weight: inherit; margin: 0;">PV<span>99</span></h1>
+        <!-- 如果有 logo 圖片，取消註解: -->
+        <!-- <img src="/images/logo.png" alt="PV99 အွန်လိုင်းကာစီနို" class="logo-img"> -->
+      </div>
+      <nav class="header-buttons" aria-label="主要導航">
+        <a href="#platforms" class="btn btn-light">ဝင်ရောက်ပါ</a>
+        <a href="#register" class="btn btn-primary">စာရင်းသွင်းမယ်</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="側邊欄導航">
+      {sidebarItems.map(item => (
+        <a href={item.href} class={`sidebar-item ${item.active ? 'active' : ''}`}>
+          <span class="sidebar-icon" aria-hidden="true">{item.icon}</span>
+          <span>{item.text}</span>
+        </a>
+      ))}
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Banner Carousel -->
+      <section class="banner-carousel" aria-label="促銷橫幅">
+        <div class="banner-slide">
+          <!-- 添加橫幅圖片: -->
+          <!-- <img src="/images/banner-1.jpg" alt="PV99 Member Day 15 促銷活動"> -->
+          
+          <!-- 佔位符 (有圖片後刪除) -->
+          <div class="banner-placeholder">
+            請在此放置橫幅圖片<br>
+            尺寸建議: 1400x420px<br>
+            /public/images/banner-1.jpg
+          </div>
+        </div>
+        <div class="carousel-dots" role="tablist" aria-label="輪播控制">
+          <button class="dot active" role="tab" aria-label="幻燈片 1" aria-selected="true"></button>
+          <button class="dot" role="tab" aria-label="幻燈片 2" aria-selected="false"></button>
+          <button class="dot" role="tab" aria-label="幻燈片 3" aria-selected="false"></button>
+          <button class="dot" role="tab" aria-label="幻燈片 4" aria-selected="false"></button>
+          <button class="dot" role="tab" aria-label="幻燈片 5" aria-selected="false"></button>
+        </div>
+      </section>
+
+      <!-- Alert Banner -->
+      <aside class="alert-banner" role="complementary">
+        <span class="alert-icon" aria-hidden="true">🔔</span>
+        <span>🎉 PV99 ကို ကြိုဆိုပါတယ်!</span>
+      </aside>
+
+      <!-- Games Section -->
+      <section id="games" aria-labelledby="games-title">
+        <h2 id="games-title" class="section-title">အများကြိုက်ဂိမ်းများ</h2>
+        
+        <div class="games-grid">
+          {games.map(game => (
+            <article class="game-card">
+              <div class="game-image">
+                <!-- 添加遊戲圖片，取消註解: -->
+                <!-- <img src={`/images/games/${game.img}`} alt={`${game.name} - ${game.provider}`} loading="lazy"> -->
+                
+                <!-- 佔位符 (有圖片後刪除) -->
+                <div class="game-placeholder">{game.name}<br>圖片位置</div>
+                
+                <div class="game-badge">{game.badge}</div>
+              </div>
+              <div class="game-info">
+                <h3 class="game-title">{game.name}</h3>
+                <p>{game.provider}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- Platforms Section -->
+      <section id="platforms" class="platforms-section" aria-labelledby="platforms-title">
+        <h2 id="platforms-title" class="section-title">ပလက်ဖောင်းများ ရွေးချယ်ပါ</h2>
+        
+        <div class="platforms-grid">
+          {platforms.map((platform, index) => (
+            <a 
+              href={platform.url} 
+              class="platform-btn" 
+              style={`animation-delay: ${index * 0.1}s`}
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label={`${platform.name} - ${platform.description}`}
+            >
+              <div class="platform-name">{platform.name}</div>
+              <div class="platform-code">{platform.code}</div>
+              <div class="platform-affiliate">{platform.affiliate}</div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- SEO Content Section -->
+      <section class="seo-content" aria-labelledby="about-title">
+        <h2 id="about-title">PV99 - မြန်မာ့အကောင်းဆုံး အွန်လိုင်းကာစီနို</h2>
+        <p>
+          PV99 သည် မြန်မာနိုင်ငံတွင် အကောင်းဆုံး အွန်လိုင်းကာစီနို ပလက်ဖောင်းများကို ချိတ်ဆက်ပေးသည့် ယုံကြည်စိတ်ချရသော ဝက်ဘ်ဆိုက်ဖြစ်ပါသည်။ 
+          Yes8, Ygn9, Pya777, Mmk99, Kbz999, Mmk123, Mmk8 အစရှိသော ထိပ်တန်း ကာစီနိုများတွင် လုံခြုံစိတ်ချစွာ ကစားနိုင်ပါသည်။
+        </p>
+        
+        <h3>အွန်လိုင်းကာစီနို ဂိမ်းများ</h3>
+        <p>
+          Rich Mahjong, Super Ace, Fortune Gems, Mahjong Ways 2, Sweet Bonanza အစရှိသော ရေပန်းစားဆုံး စလော့ဂိမ်းများကို ကစားပါ။ 
+          Royal Slot Gaming, Jili, Pocket Games Soft, Pragmatic Play ကဲ့သို့သော နာမည်ကြီး ဂိမ်းထုတ်လုပ်သူများ၏ ဂိမ်းများကို ရရှိနိုင်ပါသည်။
+        </p>
+        
+        <h3>လုံခြုံစိတ်ချရသော ငွေသွင်း-ထုတ်မှု</h3>
+        <p>
+          VISA, Mastercard, KBZ Pay, Wave Money, AYA Pay အစရှိသော ငွေပေးချေမှုနည်းလမ်းများစွာဖြင့် 
+          လုံခြုံစိတ်ချစွာ ငွေသွင်း-ထုတ်နိုင်ပါသည်။ မြန်ဆန်သော လုပ်ဆောင်မှုနှင့် 24/7 ဝန်ဆောင်မှုပေးပါသည်။
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#about" class="footer-link">ဝန်ဆောင်မှုများအကြောင်း</a>
+        <a href="#terms" class="footer-link">စည်းကမ်းချက်များ</a>
+        <a href="#policy" class="footer-link">ကိုယ်ရေးအချက်အလက်မူဝါဒ</a>
+        <a href="#support" class="footer-link">ပံ့ပိုးကူညီမှု</a>
+        <a href="#payment" class="footer-link">ငွေပေးချေမှုနည်းလမ်းများ</a>
+        <a href="#responsible" class="footer-link">တာဝန်ရှိသောလောင်းကစား</a>
+        <a href="#contact" class="footer-link">ဆက်သွယ်ရန်</a>
+      </nav>
+
+      <div class="payment-methods">
+        <!-- 添加支付圖片，取消註解: -->
+        <!-- <img src="/images/payments/visa.png" alt="VISA" class="payment-icon" width="50" height="30"> -->
+        <!-- <img src="/images/payments/mastercard.png" alt="Mastercard" class="payment-icon" width="50" height="30"> -->
+        
+        <!-- 佔位符 -->
+        <div class="payment-text">VISA</div>
+        <div class="payment-text">Mastercard</div>
+        <div class="payment-text">NETELLER</div>
+        <div class="payment-text">Skrill</div>
+        <div class="payment-text">KBZ Pay</div>
+        <div class="payment-text">Wave Money</div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 PV99. All rights reserved. လုံခြုံမှုနှင့် တာဝန်ရှိစွာ လောင်းကစားခြင်း | 18+</p>
+        <p style="margin-top: 10px; font-size: 12px;">
+          PV99 - မြန်မာနိုင်ငံအတွက် အွန်လိုင်းကာစီနို နှင့် စလော့ဂိမ်းများ | Yes8 | Ygn9 | Pya777 | Mmk99 | Kbz999
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans Myanmar', 'Roboto', sans-serif;
+      background: #1a1d2e;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .header {
+      background: #2b2f42;
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 42px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .logo span { color: #ff3b5c; }
+    .logo-img { height: 50px; width: auto; }
+
+    .header-buttons { display: flex; gap: 12px; }
+
+    .btn {
+      padding: 10px 24px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .btn-light { background: #e8e9ec; color: #2b2f42; }
+    .btn-primary { background: #ff3b5c; color: #fff; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+    .main-layout { display: flex; min-height: calc(100vh - 80px); }
+
+    .sidebar {
+      width: 200px;
+      background: #242738;
+      padding: 20px 0;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+
+    .sidebar-item {
+      padding: 14px 24px;
+      color: #b4b8c9;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s;
+      font-size: 15px;
+    }
+
+    .sidebar-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
+    .sidebar-item.active { background: #ff3b5c; color: #fff; border-radius: 25px; margin: 0 10px; }
+    .sidebar-icon { width: 20px; text-align: center; font-size: 18px; }
+
+    .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+
+    .banner-carousel {
+      position: relative;
+      height: 420px;
+      background: #1e1e2e;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .banner-slide { width: 100%; height: 100%; position: relative; }
+    .banner-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+    .banner-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 50%, #A855F7 100%);
+      color: #fff;
+      font-size: 20px;
+      text-align: center;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 3;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+    }
+
+    .dot.active { background: #fff; width: 30px; border-radius: 5px; }
+
+    .alert-banner {
+      background: linear-gradient(90deg, #1e3a5f 0%, #2a4a6f 100%);
+      padding: 12px 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+    }
+
+    .section-title::before { content: '◆'; margin-right: 15px; color: #666; }
+    .section-title::after { content: '◆'; margin-left: 15px; color: #666; }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 50px;
+    }
+
+    .game-card {
+      background: #2a2d3e;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+
+    .game-card:hover {
+      transform: translateY(-8px);
+      border-color: #ffd700;
+      box-shadow: 0 12px 30px rgba(255, 215, 0, 0.3);
+    }
+
+    .game-image {
+      width: 100%;
+      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
+      background: #1a1d2e;
+    }
+
+    .game-image img { width: 100%; height: 100%; object-fit: cover; }
+
+    .game-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #2a2d3e, #1a1d2e);
+      color: #666;
+      font-size: 12px;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .game-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ffd700;
+      color: #000;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-weight: 700;
+      font-size: 11px;
+      z-index: 2;
+    }
+
+    .game-info { padding: 12px; font-size: 13px; color: #b4b8c9; }
+    .game-title { font-weight: 600; margin-bottom: 4px; color: #fff; font-size: 14px; }
+
+    .platforms-section { margin-top: 60px; }
+
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .platform-btn {
+      padding: 40px 30px;
+      border-radius: 15px;
+      text-align: center;
+      text-decoration: none;
+      color: #fff;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+      display: block;
+      animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .platform-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(255, 59, 92, 0.4);
+      border-color: #ffd700;
+    }
+
+    .platform-name { font-size: 32px; font-weight: 900; margin-bottom: 10px; }
+    .platform-code { font-size: 14px; opacity: 0.9; margin-bottom: 8px; }
+    .platform-affiliate { font-size: 12px; opacity: 0.7; }
+
+    /* SEO Content Section */
+    .seo-content {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 40px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 15px;
+      line-height: 1.8;
+    }
+
+    .seo-content h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #ffd700;
+    }
+
+    .seo-content h3 {
+      font-size: 24px;
+      margin: 30px 0 15px;
+      color: #ff3b5c;
+    }
+
+    .seo-content p {
+      margin-bottom: 15px;
+      color: #b4b8c9;
+      font-size: 16px;
+    }
+
+    .footer {
+      background: #242738;
+      padding: 50px 20px 30px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 60px;
+    }
+
+    .footer-content { max-width: 1400px; margin: 0 auto; }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .footer-link {
+      color: #b4b8c9;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .footer-link:hover { color: #fff; }
+
+    .payment-methods {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .payment-icon { height: 30px; width: auto; }
+
+    .payment-text {
+      background: rgba(255,255,255,0.05);
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .footer-bottom { text-align: center; color: #6c7080; font-size: 13px; margin-top: 20px; }
+
+    .platform-btn:nth-child(1) { background: linear-gradient(135deg, #ff6b00, #ff8c42); }
+    .platform-btn:nth-child(2) { background: linear-gradient(135deg, #00d4ff, #42e0ff); }
+    .platform-btn:nth-child(3) { background: linear-gradient(135deg, #ffd700, #ffe066); }
+    .platform-btn:nth-child(4) { background: linear-gradient(135deg, #ff1493, #ff4db8); }
+    .platform-btn:nth-child(5) { background: linear-gradient(135deg, #00ff88, #42ffaa); }
+    .platform-btn:nth-child(6) { background: linear-gradient(135deg, #8b00ff, #aa42ff); }
+    .platform-btn:nth-child(7) { background: linear-gradient(135deg, #ff0055, #ff4277); }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { padding: 15px; }
+      .banner-carousel { height: 300px; }
+      .games-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+      .seo-content { padding: 20px; }
+    }
+  </style>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    let currentSlide = 0;
+    const dots = document.querySelectorAll('.dot');
+    
+    function changeDot() {
+      dots.forEach(dot => {
+        dot.classList.remove('active');
+        dot.setAttribute('aria-selected', 'false');
+      });
+      dots[currentSlide].classList.add('active');
+      dots[currentSlide].setAttribute('aria-selected', 'true');
+      currentSlide = (currentSlide + 1) % dots.length;
+    }
+    
+    setInterval(changeDot, 3000);
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentSlide = index;
+        changeDot();
+      });
+    });
+  </script>
+</body>
+</html>
