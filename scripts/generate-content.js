@@ -215,12 +215,18 @@ function updateIndexFile(aiContent, contentType) {
         `;
         console.log('✅ 已新增結構化 SEO 內容');
       } else {
-        // 對於其他類型，添加原始內容
+        // 對於其他類型，添加原始內容（確保不會插入 JSON）
+        let safeContent = content.raw || aiContent;
+        // 如果內容看起來像 JSON，跳過或轉換為純文本
+        if (safeContent.trim().startsWith('{') && safeContent.trim().endsWith('}')) {
+          console.warn('⚠️  檢測到 JSON 格式，跳過插入以避免語法錯誤');
+          return false; // 不插入無效內容
+        }
         newContent = `
         
         <!-- AI 自動生成內容 - ${timestamp} -->
         <div class="auto-generated-seo-content">
-          <p>${content.raw || aiContent}</p>
+          <p>${safeContent}</p>
         </div>
         `;
         console.log('✅ 已新增 SEO 內容');
