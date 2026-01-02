@@ -151,12 +151,12 @@ const schemaOrg = {
 <body>
   <!-- Header -->
   <header class="header">
-    <div class="logo">
+    <a href="https://www.nba.com/" target="_blank" rel="noopener noreferrer" class="logo">
       <!-- 文字 logo (有圖片時隱藏) -->
       <h1 style="display: none; font-size: inherit; font-weight: inherit; margin: 0;">PV<span>99</span></h1>
       <!-- Logo 圖片 -->
       <img src="/images/logo.png" alt="PV99 အွန်လိုင်းကာစီနို" class="logo-img">
-    </div>
+    </a>
     <div class="header-container">
       <nav class="header-buttons" aria-label="主要導航">
         <a href="#platforms" class="btn btn-light">ဝင်ရောက်ပါ</a>
@@ -351,6 +351,12 @@ const schemaOrg = {
       align-items: center;
       padding-left: 20px;
       height: 100%;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .logo:hover {
+      opacity: 0.8;
     }
 
     .logo span { color: #ff3b5c; }
