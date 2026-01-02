@@ -87,40 +87,62 @@ async function generateSEOContent(contentType) {
 
   const prompt = messages[contentType] || messages.all;
 
-  try {
-    console.log('📡 發送 API 請求到 Anthropic...');
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-3-sonnet-20240229',
-        max_tokens: 2000,
-        messages: [
-          {
-            role: 'user',
-            content: prompt
-          }
-        ]
-      })
-    });
+  // 嘗試的模型列表（按優先順序）
+  const modelList = [
+    'claude-3-5-sonnet-20240620',
+    'claude-3-opus-20240229',
+    'claude-3-sonnet-20240229',
+    'claude-3-haiku-20240307',
+    'claude-sonnet-3-5',
+    'claude-3-5-sonnet-latest'
+  ];
 
-    console.log(`📊 API 響應狀態: ${response.status} ${response.statusText}`);
+  let lastError = null;
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API 錯誤: ${response.status} - ${errorText}`);
+  for (const model of modelList) {
+    try {
+      console.log(`📡 嘗試使用模型: ${model}`);
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: model,
+          max_tokens: 2000,
+          messages: [
+            {
+              role: 'user',
+              content: prompt
+            }
+          ]
+        })
+      });
+
+      console.log(`📊 API 響應狀態: ${response.status} ${response.statusText}`);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.warn(`⚠️  模型 ${model} 失敗: ${response.status} - ${errorText}`);
+        lastError = new Error(`API 錯誤: ${response.status} - ${errorText}`);
+        continue; // 嘗試下一個模型
+      }
+
+      const data = await response.json();
+      console.log(`✅ 成功使用模型: ${model}`);
+      return data.content[0].text;
+    } catch (error) {
+      console.warn(`⚠️  模型 ${model} 調用異常: ${error.message}`);
+      lastError = error;
+      continue; // 嘗試下一個模型
     }
-
-    const data = await response.json();
-    return data.content[0].text;
-  } catch (error) {
-    console.error('❌ API 調用失敗:', error.message);
-    throw error;
   }
+
+  // 所有模型都失敗
+  console.error('❌ 所有模型都無法使用');
+  throw lastError || new Error('無法連接到 Anthropic API');
 }
 
 /**
