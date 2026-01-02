@@ -339,20 +339,29 @@ const schemaOrg = {
     .header-container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 20px 0 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      height: 100%;
     }
 
     .logo {
       font-size: 42px;
       font-weight: 900;
       color: #fff;
+      display: flex;
+      align-items: center;
+      margin-left: 0;
     }
 
     .logo span { color: #ff3b5c; }
-    .logo-img { height: 50px; width: auto; }
+    .logo-img { 
+      height: 60px; 
+      width: auto; 
+      display: block;
+      object-fit: contain;
+    }
 
     .header-buttons { display: flex; gap: 12px; }
 
