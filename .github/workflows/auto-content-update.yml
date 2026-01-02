@@ -55,6 +55,9 @@ jobs:
           
           # 檢查是否有變更
           if [[ -n $(git status -s) ]]; then
+            # 先拉取遠端變更，避免衝突
+            git pull https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git main --rebase --no-edit || git pull https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git main --no-edit
+            
             git add .
             git commit -m "🤖 自動更新內容 - $(date +'%Y-%m-%d %H:%M')"
             git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:main
