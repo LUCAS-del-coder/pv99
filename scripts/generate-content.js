@@ -83,6 +83,7 @@ async function generateSEOContent(contentType) {
   const prompt = messages[contentType] || messages.all;
 
   try {
+    console.log('📡 發送 API 請求到 Anthropic...');
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -101,6 +102,8 @@ async function generateSEOContent(contentType) {
         ]
       })
     });
+
+    console.log(`📊 API 響應狀態: ${response.status} ${response.statusText}`);
 
     if (!response.ok) {
       const errorText = await response.text();
