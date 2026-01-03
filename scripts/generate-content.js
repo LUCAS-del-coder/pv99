@@ -127,16 +127,16 @@ async function generateSEOContent(contentType, keywords = null) {
 
 要求：
 - 自然流暢的緬甸語
-- 包含關鍵字：線上賭場、PV99、Yes8、Ygn9、Pya777、Mmk99、slot games、online casino${keywords ? '，以及上述重點關鍵字' : ''}
+- 必須包含關鍵字：線上賭場、PV99、Yes8、Ygn9、Pya777、Mmk99、slot games、online casino${keywords ? '\n- **重要**：必須在內容中自然地融入以下關鍵字，每個關鍵字至少出現一次：\n' + keywords.map((k, i) => `  ${i + 1}. ${k}`).join('\n') + '\n- 關鍵字可以以完整短語形式出現，也可以拆分融入句子中\n- 例如："shwe casino" 可以寫成 "shwe casino" 或 "shwe casino app" 等形式' : ''}
 - SEO 優化，但保持可讀性
 - 突出安全、可靠、多樣化遊戲選擇等優勢
 
 請以 JSON 格式返回：
 {
-  "mainTitle": "主標題",
-  "mainParagraph": "主段落內容",
-  "gamesTitle": "遊戲標題",
-  "gamesParagraph": "遊戲段落內容",
+  "mainTitle": "主標題（必須包含至少一個關鍵字）",
+  "mainParagraph": "主段落內容（必須包含所有關鍵字）",
+  "gamesTitle": "遊戲標題（可以包含相關關鍵字）",
+  "gamesParagraph": "遊戲段落內容（必須包含相關關鍵字）",
   "paymentTitle": "支付標題",
   "paymentParagraph": "支付段落內容"
 }`,
