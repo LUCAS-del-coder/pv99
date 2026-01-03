@@ -113,8 +113,20 @@ let indexContent = fs.readFileSync(indexPath, 'utf-8');
 async function generateSEOContent(contentType, keywords = null) {
   // 如果是每日自動更新，使用選中的關鍵字
   let keywordText = '';
+  let keywordRequirement = '';
   if (keywords && keywords.length > 0) {
-    keywordText = `\n\n重點關鍵字（必須自然融入內容中）：\n${keywords.map((k, i) => `${i + 1}. ${k}`).join('\n')}\n\n要求：\n- 必須自然地將這些關鍵字融入內容中\n- 每個關鍵字至少出現一次\n- 保持內容自然流暢，不要堆砌關鍵字`;
+    keywordText = `\n\n【重要】以下 ${keywords.length} 個關鍵字必須全部融入內容中：\n${keywords.map((k, i) => `${i + 1}. "${k}"`).join('\n')}\n\n`;
+    keywordRequirement = `\n\n【關鍵字使用要求 - 必須嚴格遵守】：
+1. 上述 ${keywords.length} 個關鍵字必須全部在內容中出現，每個關鍵字至少出現一次
+2. 關鍵字可以完整出現（如 "shwe casino"）或部分出現（如 "shwe casino app" 中包含 "shwe casino"）
+3. 關鍵字必須自然地融入句子中，不要生硬堆砌
+4. 主標題必須包含至少 1-2 個關鍵字
+5. 主段落必須包含至少 3-4 個關鍵字
+6. 遊戲段落必須包含至少 1-2 個相關關鍵字
+7. 如果關鍵字包含 "casino myanmar"、"online casino myanmar" 等，必須在適當位置使用
+8. 如果關鍵字包含 "shwe casino"、"lion boss casino"、"fishing casino" 等，必須在描述中提及
+9. 如果關鍵字包含 "mwd777"、"gkk777"、"jdbyg" 等平台名稱，可以與 PV99 的平台列表一起提及
+10. 生成完成後，請檢查是否所有關鍵字都已包含，如果缺少任何關鍵字，必須重新生成`;
   }
   
   const messages = {
@@ -125,21 +137,23 @@ async function generateSEOContent(contentType, keywords = null) {
 2. 線上賭場遊戲介紹段落（約 150-200 字）
 3. 安全支付方式介紹段落（約 150-200 字）
 
-要求：
+基本要求：
 - 自然流暢的緬甸語
-- 必須包含關鍵字：線上賭場、PV99、Yes8、Ygn9、Pya777、Mmk99、slot games、online casino${keywords ? '\n- **重要**：必須在內容中自然地融入以下關鍵字，每個關鍵字至少出現一次：\n' + keywords.map((k, i) => `  ${i + 1}. ${k}`).join('\n') + '\n- 關鍵字可以以完整短語形式出現，也可以拆分融入句子中\n- 例如："shwe casino" 可以寫成 "shwe casino" 或 "shwe casino app" 等形式' : ''}
+- 必須包含基礎關鍵字：線上賭場、PV99、Yes8、Ygn9、Pya777、Mmk99、slot games、online casino${keywordRequirement}
 - SEO 優化，但保持可讀性
 - 突出安全、可靠、多樣化遊戲選擇等優勢
 
 請以 JSON 格式返回：
 {
-  "mainTitle": "主標題（必須包含至少一個關鍵字）",
-  "mainParagraph": "主段落內容（必須包含所有關鍵字）",
+  "mainTitle": "主標題（必須包含至少 1-2 個指定關鍵字）",
+  "mainParagraph": "主段落內容（必須包含至少 3-4 個指定關鍵字，總共約 200-300 字）",
   "gamesTitle": "遊戲標題（可以包含相關關鍵字）",
-  "gamesParagraph": "遊戲段落內容（必須包含相關關鍵字）",
+  "gamesParagraph": "遊戲段落內容（必須包含至少 1-2 個相關關鍵字，約 150-200 字）",
   "paymentTitle": "支付標題",
-  "paymentParagraph": "支付段落內容"
-}`,
+  "paymentParagraph": "支付段落內容（約 150-200 字）"
+}
+
+【最後檢查】返回 JSON 前，請確認所有 ${keywords ? keywords.length : 0} 個指定關鍵字都已包含在內容中。`,
     
     seo: `請為線上賭場網站生成 SEO 優化的文案。重點關注：
 - 線上賭場的優勢和特色
@@ -401,6 +415,53 @@ function escapeHtml(text) {
 }
 
 /**
+ * 驗證生成的內容是否包含所有關鍵字
+ */
+function validateKeywords(content, keywords) {
+  if (!keywords || keywords.length === 0) {
+    return { valid: true, missing: [] };
+  }
+  
+  const allText = JSON.stringify(content).toLowerCase();
+  const missing = [];
+  
+  for (const keyword of keywords) {
+    const keywordLower = keyword.toLowerCase();
+    // 檢查完整關鍵字或部分匹配（例如 "shwe casino" 可以在 "shwe casino app" 中找到）
+    const keywordParts = keywordLower.split(/\s+/);
+    let found = false;
+    
+    // 先檢查完整關鍵字
+    if (allText.includes(keywordLower)) {
+      found = true;
+    } else {
+      // 檢查關鍵字的主要部分（至少包含 2/3 的詞）
+      const requiredParts = Math.ceil(keywordParts.length * 0.6);
+      let matchedParts = 0;
+      for (const part of keywordParts) {
+        if (part.length > 2 && allText.includes(part)) {
+          matchedParts++;
+        }
+      }
+      if (matchedParts >= requiredParts) {
+        found = true;
+      }
+    }
+    
+    if (!found) {
+      missing.push(keyword);
+    }
+  }
+  
+  return {
+    valid: missing.length === 0,
+    missing: missing,
+    found: keywords.length - missing.length,
+    total: keywords.length
+  };
+}
+
+/**
  * 主函數
  */
 async function main() {
@@ -425,6 +486,32 @@ async function main() {
     console.log('✅ AI 內容生成成功');
     console.log(`📝 生成內容長度: ${aiContent.length} 字符`);
     
+    // 驗證關鍵字（如果有的話）
+    if (selectedKeywords && selectedKeywords.length > 0) {
+      console.log('🔍 驗證關鍵字使用情況...');
+      // 先解析內容以驗證
+      try {
+        let jsonText = aiContent;
+        jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsedContent = JSON.parse(jsonMatch[0]);
+          const validation = validateKeywords(parsedContent, selectedKeywords);
+          
+          if (validation.valid) {
+            console.log(`✅ 關鍵字驗證通過：所有 ${validation.total} 個關鍵字都已包含`);
+          } else {
+            console.warn(`⚠️  關鍵字驗證警告：`);
+            console.warn(`   - 已包含：${validation.found}/${validation.total} 個關鍵字`);
+            console.warn(`   - 缺少的關鍵字：${validation.missing.join(', ')}`);
+            console.warn(`   - 內容仍會更新，但建議檢查關鍵字使用情況`);
+          }
+        }
+      } catch (e) {
+        console.warn('⚠️  無法驗證關鍵字（內容格式可能不是 JSON）');
+      }
+    }
+    
     // 更新文件
     console.log('📝 正在更新文件...');
     const updated = updateIndexFile(aiContent, CONTENT_TYPE);
@@ -432,7 +519,7 @@ async function main() {
     if (updated) {
       console.log('✅ 內容更新完成');
       if (selectedKeywords) {
-        console.log(`✅ 已使用關鍵字: ${selectedKeywords.join(', ')}`);
+        console.log(`📌 選中的關鍵字: ${selectedKeywords.join(', ')}`);
       }
       process.exit(0);
     } else {
