@@ -238,28 +238,69 @@ function updateIndexFile(aiContent, contentType) {
         // 提取 JSON 部分（可能包含在 markdown 代碼塊中）
         let jsonText = aiContent;
         
-        // 移除 markdown 代碼塊標記
+        // 移除 markdown 代碼塊標記和可能的說明文字
         jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        // 移除可能的開頭說明文字
+        jsonText = jsonText.replace(/^[^{]*/, '').replace(/[^}]*$/, '');
         
-        // 嘗試找到 JSON 對象
+        // 嘗試找到 JSON 對象（更寬鬆的匹配）
         const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
-          content = JSON.parse(jsonMatch[0]);
-          console.log('✅ 成功解析 JSON 格式');
+          try {
+            content = JSON.parse(jsonMatch[0]);
+            console.log('✅ 成功解析 JSON 格式');
+          } catch (parseError) {
+            console.warn('⚠️  JSON 解析失敗，嘗試修復格式');
+            // 嘗試修復常見的 JSON 格式問題
+            let fixedJson = jsonMatch[0];
+            // 修復缺少引號的鍵名
+            fixedJson = fixedJson.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":');
+            // 修復缺少引號的值（如果值不包含特殊字符）
+            fixedJson = fixedJson.replace(/:\s*([^",{\[}\]]+?)(\s*[,}])/g, (match, value, suffix) => {
+              const trimmed = value.trim();
+              if (trimmed && !trimmed.startsWith('"') && !trimmed.match(/^[\d.]+$/)) {
+                return `: "${trimmed}"${suffix}`;
+              }
+              return match;
+            });
+            
+            try {
+              content = JSON.parse(fixedJson);
+              console.log('✅ 修復後成功解析 JSON');
+            } catch (e2) {
+              throw new Error('無法修復 JSON 格式');
+            }
+          }
         } else {
           throw new Error('無法找到 JSON 格式');
         }
       } catch (e) {
-        console.warn('⚠️  無法解析 JSON，嘗試提取結構化內容');
-        // 嘗試從文本中提取結構化內容
-        content = {
-          mainTitle: extractSection(aiContent, '主標題', '標題'),
-          mainParagraph: extractSection(aiContent, '主段落', '描述'),
-          gamesTitle: extractSection(aiContent, '遊戲標題', '遊戲'),
-          gamesParagraph: extractSection(aiContent, '遊戲段落', '遊戲內容'),
-          paymentTitle: extractSection(aiContent, '支付標題', '支付'),
-          paymentParagraph: extractSection(aiContent, '支付段落', '支付內容')
+        console.warn('⚠️  無法解析 JSON，嘗試從文本中提取內容');
+        console.warn('錯誤詳情:', e.message);
+        
+        // 嘗試從 JSON 文本中直接提取字段（即使格式不完全正確）
+        const extractJsonField = (text, fieldName) => {
+          const regex = new RegExp(`"${fieldName}"\\s*:\\s*"([^"]+)"`, 'i');
+          const match = text.match(regex);
+          return match ? match[1] : null;
         };
+        
+        content = {
+          mainTitle: extractJsonField(aiContent, 'mainTitle') || extractSection(aiContent, 'mainTitle', '主標題', '標題'),
+          mainParagraph: extractJsonField(aiContent, 'mainParagraph') || extractSection(aiContent, 'mainParagraph', '主段落', '描述'),
+          gamesTitle: extractJsonField(aiContent, 'gamesTitle') || extractSection(aiContent, 'gamesTitle', '遊戲標題', '遊戲'),
+          gamesParagraph: extractJsonField(aiContent, 'gamesParagraph') || extractSection(aiContent, 'gamesParagraph', '遊戲段落', '遊戲內容'),
+          paymentTitle: extractJsonField(aiContent, 'paymentTitle') || extractSection(aiContent, 'paymentTitle', '支付標題', '支付'),
+          paymentParagraph: extractJsonField(aiContent, 'paymentParagraph') || extractSection(aiContent, 'paymentParagraph', '支付段落', '支付內容')
+        };
+        
+        // 如果至少有一些內容，就繼續
+        if (!content.mainTitle && !content.mainParagraph) {
+          console.warn('⚠️  無法提取任何結構化內容，將使用原始內容');
+          content = { raw: aiContent };
+        } else {
+          console.log('✅ 從文本中提取了部分結構化內容');
+        }
       }
     } else {
       content = { raw: aiContent };
@@ -272,34 +313,42 @@ function updateIndexFile(aiContent, contentType) {
       let newContent = '';
       const timestamp = new Date().toISOString().split('T')[0];
       
-      if (contentType === 'all' && content.mainTitle) {
-        // 生成結構化的新內容區塊
+      if (contentType === 'all' && (content.mainTitle || content.mainParagraph)) {
+        // 生成結構化的新內容區塊（即使部分字段缺失也繼續）
         newContent = `
         
         <!-- AI 自動生成內容 - ${timestamp} -->
         <div class="auto-generated-seo-content">
-          ${content.mainTitle ? `<h3>${content.mainTitle}</h3>` : ''}
-          ${content.mainParagraph ? `<p>${content.mainParagraph}</p>` : ''}
-          ${content.gamesTitle ? `<h4>${content.gamesTitle}</h4>` : ''}
-          ${content.gamesParagraph ? `<p>${content.gamesParagraph}</p>` : ''}
-          ${content.paymentTitle ? `<h4>${content.paymentTitle}</h4>` : ''}
-          ${content.paymentParagraph ? `<p>${content.paymentParagraph}</p>` : ''}
+          ${content.mainTitle ? `<h3>${escapeHtml(content.mainTitle)}</h3>` : ''}
+          ${content.mainParagraph ? `<p>${escapeHtml(content.mainParagraph)}</p>` : ''}
+          ${content.gamesTitle ? `<h4>${escapeHtml(content.gamesTitle)}</h4>` : ''}
+          ${content.gamesParagraph ? `<p>${escapeHtml(content.gamesParagraph)}</p>` : ''}
+          ${content.paymentTitle ? `<h4>${escapeHtml(content.paymentTitle)}</h4>` : ''}
+          ${content.paymentParagraph ? `<p>${escapeHtml(content.paymentParagraph)}</p>` : ''}
         </div>
         `;
         console.log('✅ 已新增結構化 SEO 內容');
       } else {
         // 對於其他類型，添加原始內容（確保不會插入 JSON）
         let safeContent = content.raw || aiContent;
-        // 如果內容看起來像 JSON，跳過或轉換為純文本
+        // 如果內容看起來像 JSON，嘗試提取可讀文本
         if (safeContent.trim().startsWith('{') && safeContent.trim().endsWith('}')) {
-          console.warn('⚠️  檢測到 JSON 格式，跳過插入以避免語法錯誤');
-          return false; // 不插入無效內容
+          console.warn('⚠️  檢測到 JSON 格式，嘗試提取可讀內容');
+          // 嘗試從 JSON 中提取所有字符串值
+          const textMatches = safeContent.match(/"([^"]{20,})"/g);
+          if (textMatches && textMatches.length > 0) {
+            safeContent = textMatches.map(m => m.slice(1, -1)).join('\n\n');
+            console.log('✅ 從 JSON 中提取了文本內容');
+          } else {
+            console.warn('⚠️  無法從 JSON 中提取內容，跳過插入');
+            return false;
+          }
         }
         newContent = `
         
         <!-- AI 自動生成內容 - ${timestamp} -->
         <div class="auto-generated-seo-content">
-          <p>${safeContent}</p>
+          <p>${escapeHtml(safeContent)}</p>
         </div>
         `;
         console.log('✅ 已新增 SEO 內容');
@@ -336,6 +385,19 @@ function extractSection(text, ...keywords) {
     }
   }
   return null;
+}
+
+/**
+ * 轉義 HTML 特殊字符
+ */
+function escapeHtml(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 /**
