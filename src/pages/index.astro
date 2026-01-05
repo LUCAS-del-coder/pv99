@@ -217,11 +217,11 @@ const schemaOrg = {
           {games.map(game => (
             <article class="game-card">
               <div class="game-image">
-                <!-- 添加遊戲圖片，取消註解: -->
-                <!-- <img src={`/images/games/${game.img}`} alt={`${game.name} - ${game.provider}`} loading="lazy"> -->
+                <!-- 遊戲圖片 -->
+                <img src={`/images/games/${game.img}`} alt={`${game.name} - ${game.provider}`} loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 
-                <!-- 佔位符 (有圖片後刪除) -->
-                <div class="game-placeholder">{game.name}<br>圖片位置</div>
+                <!-- 佔位符 (圖片載入失敗時顯示) -->
+                <div class="game-placeholder" style="display: none;">{game.name}<br>圖片位置</div>
                 
                 <div class="game-badge">{game.badge}</div>
               </div>
@@ -404,13 +404,12 @@ const schemaOrg = {
       </nav>
 
       <div class="payment-methods">
-        <!-- 添加支付圖片，取消註解: -->
-        <!-- <img src="/images/payments/visa.png" alt="VISA" class="payment-icon" width="50" height="30"> -->
-        <!-- <img src="/images/payments/mastercard.png" alt="Mastercard" class="payment-icon" width="50" height="30"> -->
+        <!-- 支付方式圖片 -->
+        <img src="/images/payments/visa.png" alt="VISA" class="payment-icon" width="50" height="30" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div class="payment-text" style="display: none;">VISA</div>
         
-        <!-- 佔位符 -->
-        <div class="payment-text">VISA</div>
-        <div class="payment-text">Mastercard</div>
+        <img src="/images/payments/mastercard.png" alt="Mastercard" class="payment-icon" width="50" height="30" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div class="payment-text" style="display: none;">Mastercard</div>
         <div class="payment-text">NETELLER</div>
         <div class="payment-text">Skrill</div>
         <div class="payment-text">KBZ Pay</div>
