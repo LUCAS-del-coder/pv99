@@ -218,7 +218,12 @@ const schemaOrg = {
             <article class="game-card">
               <div class="game-image">
                 <!-- 遊戲圖片 -->
-                <img src={`/images/games/${game.img}`} alt={`${game.name} - ${game.provider}`} loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img 
+                  src={`/images/games/${game.img}`} 
+                  alt={`${game.name} - ${game.provider}`} 
+                  loading="lazy"
+                  onerror="this.onerror=null; this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';"
+                >
                 
                 <!-- 佔位符 (圖片載入失敗時顯示) -->
                 <div class="game-placeholder" style="display: none;">{game.name}<br>圖片位置</div>
