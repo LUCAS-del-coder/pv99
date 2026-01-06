@@ -11,49 +11,56 @@ const platforms = [
     code: "M18-Yes8",
     affiliate: "seom1802",
     url: "https://www.yes8.io/m/home?affiliateCode=seom1802",
-    description: "Yes8 အွန်လိုင်းကာစီနို - လုံခြုံပြီး ယုံကြဲစိတ်ချရသော ဂိမ်းများ"
+    description: "Yes8 အွန်လိုင်းကာစီနို - လုံခြုံပြီး ယုံကြဲစိတ်ချရသော ဂိမ်းများ",
+    img: "yes8.jpg"
   },
   {
     name: "Ygn9",
     code: "M19-Ygn9",
     affiliate: "seom1902",
     url: "https://www.ygn9.net/m/home?affiliateCode=seom1902",
-    description: "Ygn9 - မြန်မာ့ထိပ်တန်း အွန်လိုင်းလောင်းကစားပလက်ဖောင်း"
+    description: "Ygn9 - မြန်မာ့ထိပ်တန်း အွန်လိုင်းလောင်းကစားပလက်ဖောင်း",
+    img: "ygn9.jpg"
   },
   {
     name: "Pya777",
     code: "M20-Pya777",
     affiliate: "seom2002",
     url: "https://www.pya777.net/m/home?affiliateCode=seom2002",
-    description: "Pya777 ကာစီနို - အကောင်းဆုံး စလော့ဂိမ်းများ"
+    description: "Pya777 ကာစီနို - အကောင်းဆုံး စလော့ဂိမ်းများ",
+    img: "pya777.jpg"
   },
   {
     name: "Mmk99",
     code: "M21-Mmk99",
     affiliate: "seom2102",
     url: "https://www.mmk99.net/m/home?affiliateCode=seom2102",
-    description: "Mmk99 - မြန်ဆန်သော ငွေသွင်း-ထုတ်မှု"
+    description: "Mmk99 - မြန်ဆန်သော ငွေသွင်း-ထုတ်မှု",
+    img: "mmk99.jpg"
   },
   {
     name: "Kbz999",
     code: "M22-Kbz999",
     affiliate: "seom2202",
     url: "https://www.kbz999.net/m/home?affiliateCode=seom2202",
-    description: "Kbz999 အွန်လိုင်းကာစီနို - ဘောနပ်စများစွာ"
+    description: "Kbz999 အွန်လိုင်းကာစီနို - ဘောနပ်စများစွာ",
+    img: "kbz999.jpg"
   },
   {
     name: "Mmk123",
     code: "M23-Mmk123",
     affiliate: "seom2302",
     url: "https://www.mmk123.net/m/home?affiliateCode=seom2302",
-    description: "Mmk123 - လူကြိုက်များသော ဂိမ်းများ"
+    description: "Mmk123 - လူကြိုက်များသော ဂိမ်းများ",
+    img: "mmk123.jpg"
   },
   {
     name: "Mmk8",
     code: "M24-Mmk8",
     affiliate: "seom2401",
     url: "https://www.mmk8.net/m/home?affiliateCode=seom2401",
-    description: "Mmk8 ကာစီနို - 24/7 ဝန်ဆောင်မှု"
+    description: "Mmk8 ကာစီနို - 24/7 ဝန်ဆောင်မှု",
+    img: "mmk8.jpg"
   }
 ];
 
@@ -253,9 +260,17 @@ const schemaOrg = {
               rel="noopener noreferrer"
               aria-label={`${platform.name} - ${platform.description}`}
             >
-              <div class="platform-name">{platform.name}</div>
-              <div class="platform-code">{platform.code}</div>
-              <div class="platform-affiliate">{platform.affiliate}</div>
+              <img 
+                src={`/images/platforms/${platform.img}`} 
+                alt={platform.name}
+                class="platform-image"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+              >
+              <div class="platform-content" style="display: none;">
+                <div class="platform-name">{platform.name}</div>
+                <div class="platform-code">{platform.code}</div>
+                <div class="platform-affiliate">{platform.affiliate}</div>
+              </div>
             </a>
           ))}
         </div>
@@ -695,7 +710,7 @@ const schemaOrg = {
     }
 
     .platform-btn {
-      padding: 40px 30px;
+      padding: 0;
       border-radius: 15px;
       text-align: center;
       text-decoration: none;
@@ -704,6 +719,29 @@ const schemaOrg = {
       border: 2px solid transparent;
       display: block;
       animation: fadeInUp 0.6s ease-out backwards;
+      overflow: hidden;
+      position: relative;
+      min-height: 200px;
+    }
+    
+    .platform-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .platform-content {
+      padding: 40px 30px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     @keyframes fadeInUp {
@@ -798,13 +836,14 @@ const schemaOrg = {
 
     .footer-bottom { text-align: center; color: #6c7080; font-size: 13px; margin-top: 20px; }
 
-    .platform-btn:nth-child(1) { background: linear-gradient(135deg, #ff6b00, #ff8c42); }
-    .platform-btn:nth-child(2) { background: linear-gradient(135deg, #00d4ff, #42e0ff); }
-    .platform-btn:nth-child(3) { background: linear-gradient(135deg, #ffd700, #ffe066); }
-    .platform-btn:nth-child(4) { background: linear-gradient(135deg, #ff1493, #ff4db8); }
-    .platform-btn:nth-child(5) { background: linear-gradient(135deg, #00ff88, #42ffaa); }
-    .platform-btn:nth-child(6) { background: linear-gradient(135deg, #8b00ff, #aa42ff); }
-    .platform-btn:nth-child(7) { background: linear-gradient(135deg, #ff0055, #ff4277); }
+    /* 如果圖片不存在，使用漸變背景作為後備 */
+    .platform-btn:nth-child(1) .platform-content { background: linear-gradient(135deg, #ff6b00, #ff8c42); }
+    .platform-btn:nth-child(2) .platform-content { background: linear-gradient(135deg, #00d4ff, #42e0ff); }
+    .platform-btn:nth-child(3) .platform-content { background: linear-gradient(135deg, #ffd700, #ffe066); }
+    .platform-btn:nth-child(4) .platform-content { background: linear-gradient(135deg, #ff1493, #ff4db8); }
+    .platform-btn:nth-child(5) .platform-content { background: linear-gradient(135deg, #00ff88, #42ffaa); }
+    .platform-btn:nth-child(6) .platform-content { background: linear-gradient(135deg, #8b00ff, #aa42ff); }
+    .platform-btn:nth-child(7) .platform-content { background: linear-gradient(135deg, #ff0055, #ff4277); }
 
     @media (max-width: 768px) {
       .sidebar { display: none; }
