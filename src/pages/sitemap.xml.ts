@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 
 // 網站配置（與 index.astro 保持一致）
-const siteUrl = 'https://pv99.com';
+const siteUrl = 'https://pv991.com';
 
 // 動態頁面列表（可以根據需要擴展）
 const staticPages = [
