@@ -1,0 +1,82 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+}
+
+const { title, description = "PV99 - မြန်မာ့အကောင်းဆုံး အွန်လိုင်းကာစီနို", keywords = "PV99, အွန်လိုင်းကာစီနို, online casino myanmar" } = Astro.props;
+const siteUrl = "https://pv991.com";
+const ogImage = "/images/og-image.jpg";
+---
+
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-724BTJFFGZ"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-724BTJFFGZ');
+  </script>
+  
+  <!-- Primary Meta Tags -->
+  <title>{title}</title>
+  <meta name="title" content={title}>
+  <meta name="description" content={description}>
+  {keywords && <meta name="keywords" content={keywords}>}
+  <meta name="author" content="PV99">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Myanmar">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href={`${siteUrl}${Astro.url.pathname}`}>
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content={`${siteUrl}${ogImage}`}>
+  <meta property="og:site_name" content="PV99">
+  <meta property="og:locale" content="my_MM">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content={`${siteUrl}${Astro.url.pathname}`}>
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={`${siteUrl}${ogImage}`}>
+  
+  <!-- Preconnect to external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style is:global>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Noto Sans Myanmar', 'Roboto', sans-serif;
+      background: #1a1d2e;
+      color: #fff;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <slot />
+</body>
+</html>
+
