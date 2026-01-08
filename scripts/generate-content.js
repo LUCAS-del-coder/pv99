@@ -186,13 +186,13 @@ async function generateBlogPost(keyword, relatedKeywords) {
   ]
 }`;
 
-  // 使用最新的 Claude 模型列表
+  // 使用可用的 Claude 模型列表（優先使用已驗證可用的模型）
   const modelList = [
+    'claude-3-haiku-20240307',  // 已驗證可用
     'claude-3-5-sonnet-20241022',
     'claude-3-5-sonnet-20240620',
     'claude-3-opus-20240229',
-    'claude-3-sonnet-20240229',
-    'claude-3-haiku-20240307'
+    'claude-3-sonnet-20240229'
   ];
 
   for (const model of modelList) {
@@ -248,11 +248,63 @@ async function generateBlogPost(keyword, relatedKeywords) {
 }
 
 /**
+ * 清理和修復 JSON 字符串
+ */
+function cleanJsonString(jsonString) {
+  // 移除控制字符（除了換行符和製表符，這些在 JSON 中可能是合法的）
+  let cleaned = jsonString
+    .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // 移除控制字符
+    .trim();
+  
+  // 嘗試從文本中提取 JSON（如果 AI 返回的是包含 JSON 的文本）
+  const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    cleaned = jsonMatch[0];
+  }
+  
+  return cleaned;
+}
+
+/**
+ * 安全解析 JSON
+ */
+function safeJsonParse(jsonString) {
+  try {
+    // 先清理字符串
+    const cleaned = cleanJsonString(jsonString);
+    
+    // 嘗試直接解析
+    return JSON.parse(cleaned);
+  } catch (error) {
+    // 如果失敗，嘗試修復常見問題
+    try {
+      let fixed = jsonString
+        .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // 移除所有控制字符
+        .replace(/\n/g, '\\n')  // 轉義換行符
+        .replace(/\r/g, '\\r')  // 轉義回車符
+        .replace(/\t/g, '\\t'); // 轉義製表符
+      
+      // 再次嘗試提取 JSON
+      const jsonMatch = fixed.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+      
+      throw error;
+    } catch (secondError) {
+      console.error('❌ JSON 解析失敗:', secondError.message);
+      console.error('原始內容前 500 字符:', jsonString.substring(0, 500));
+      throw new Error(`JSON 解析失敗: ${secondError.message}`);
+    }
+  }
+}
+
+/**
  * 創建獨立的部落格頁面
  */
 function createBlogPost(keyword, aiContent, date) {
   try {
-    const content = JSON.parse(aiContent);
+    const content = safeJsonParse(aiContent);
     
     // 生成 URL 友善的 slug
     const slug = keyword
