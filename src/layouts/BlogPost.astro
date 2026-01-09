@@ -67,8 +67,8 @@ const { title, description, keywords, pubDate } = frontmatter;
   .blog-post-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 3rem 1.5rem;
-    background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+    padding: 2rem 1.5rem;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 50%, #f5f7fa 100%);
     min-height: 100vh;
   }
 
@@ -197,11 +197,24 @@ const { title, description, keywords, pubDate } = frontmatter;
     font-size: 1.125rem;
     line-height: 1.9;
     color: #2d3748;
-    background: white;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     padding: 3rem;
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
     margin-top: 2rem;
+    border: 2px solid rgba(102, 126, 234, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .post-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
   }
 
   .post-content :global(h2) {

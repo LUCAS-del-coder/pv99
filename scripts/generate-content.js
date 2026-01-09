@@ -373,7 +373,7 @@ function createBlogPost(keyword, aiContent, date) {
       return null;
     }
     
-    // 生成 Astro 頁面內容
+    // 生成 Astro 頁面內容（只包含內容，不包含外層結構，因為布局已經提供了）
     const astroContent = `---
 title: "${escapeQuotes(content.title)}"
 description: "${escapeQuotes(content.description)}"
@@ -382,47 +382,36 @@ pubDate: "${date}"
 layout: '../../layouts/BlogPost.astro'
 ---
 
-<article class="blog-post">
-  <h1>${escapeHtml(content.title)}</h1>
-  
-  <div class="post-meta">
-    <time datetime="${date}">${formatDate(date)}</time>
-    <span class="keyword-tag">${escapeHtml(keyword)}</span>
+${content.content}
+
+${content.relatedQuestions && content.relatedQuestions.length > 0 ? `
+<section class="faq-section">
+  <h2>常見問題</h2>
+  <div class="faq-list">
+    ${content.relatedQuestions.map(q => `
+      <div class="faq-item">
+        <h3>${escapeHtml(q)}</h3>
+      </div>
+    `).join('')}
   </div>
-  
-  <div class="post-content">
-    ${content.content}
-  </div>
-  
-  ${content.relatedQuestions && content.relatedQuestions.length > 0 ? `
-  <section class="faq-section">
-    <h2>常見問題</h2>
-    <div class="faq-list">
-      ${content.relatedQuestions.map(q => `
-        <div class="faq-item">
-          <h3>${escapeHtml(q)}</h3>
-        </div>
-      `).join('')}
-    </div>
-  </section>
-  ` : ''}
-  
-  <!-- Schema Markup for SEO -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "${escapeQuotes(content.title)}",
-    "description": "${escapeQuotes(content.description)}",
-    "datePublished": "${date}",
-    "keywords": "${keyword}",
-    "author": {
-      "@type": "Organization",
-      "name": "PV99"
-    }
+</section>
+` : ''}
+
+<!-- Schema Markup for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "${escapeQuotes(content.title)}",
+  "description": "${escapeQuotes(content.description)}",
+  "datePublished": "${date}",
+  "keywords": "${keyword}",
+  "author": {
+    "@type": "Organization",
+    "name": "PV99"
   }
-  </script>
-</article>
+}
+</script>
 `;
 
     fs.writeFileSync(filepath, astroContent, 'utf-8');
