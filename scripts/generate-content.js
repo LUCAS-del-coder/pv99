@@ -588,15 +588,34 @@ async function main() {
     console.log(`📅 日期: ${date}`);
     console.log(`📌 今日關鍵字: ${selected.join(', ')}`);
     
-    // 2. 為主關鍵字生成文章（使用第一個關鍵字）
-    const mainKeyword = selected[0];
-    const relatedKeywords = selected.slice(1);
+    // 2. 嘗試為每個關鍵字生成文章（直到成功或全部嘗試完）
+    let blogPost = null;
+    let successKeyword = null;
     
-    console.log(`\n✍️  正在為 "${mainKeyword}" 生成文章...`);
-    const aiContent = await generateBlogPost(mainKeyword, relatedKeywords);
-    
-    // 3. 創建獨立頁面
-    const blogPost = createBlogPost(mainKeyword, aiContent, date);
+    for (let i = 0; i < selected.length; i++) {
+      const mainKeyword = selected[i];
+      const relatedKeywords = selected.filter((_, idx) => idx !== i);
+      
+      console.log(`\n✍️  正在為 "${mainKeyword}" 生成文章...`);
+      
+      try {
+        const aiContent = await generateBlogPost(mainKeyword, relatedKeywords);
+        
+        // 3. 創建獨立頁面
+        blogPost = createBlogPost(mainKeyword, aiContent, date);
+        
+        if (blogPost) {
+          successKeyword = mainKeyword;
+          break; // 成功創建，跳出循環
+        } else {
+          console.log(`⚠️  "${mainKeyword}" 的文章已存在，嘗試下一個關鍵字...`);
+        }
+      } catch (error) {
+        console.warn(`⚠️  為 "${mainKeyword}" 生成文章失敗: ${error.message}`);
+        console.log('嘗試下一個關鍵字...');
+        continue;
+      }
+    }
     
     if (blogPost) {
       // 4. 更新索引頁
@@ -604,16 +623,24 @@ async function main() {
       
       console.log('\n✅ 完成！');
       console.log(`📄 新文章: /blog/${blogPost.slug}`);
-      console.log(`🔗 URL: https://your-site.com/blog/${blogPost.slug}`);
+      console.log(`🔗 URL: https://pv991.com/blog/${blogPost.slug}`);
+      console.log(`📝 關鍵字: ${successKeyword}`);
       
       process.exit(0);
     } else {
-      console.error('\n❌ 文章創建失敗');
-      process.exit(1);
+      // 所有關鍵字都已經有文章了，這是正常情況
+      console.log('\n✅ 今日所有關鍵字的文章都已存在');
+      console.log('ℹ️  沒有新內容需要生成');
+      
+      // 仍然更新索引頁（以防有新文章）
+      updateBlogIndex();
+      
+      process.exit(0);
     }
     
   } catch (error) {
     console.error('\n❌ 執行失敗:', error.message);
+    console.error(error.stack);
     process.exit(1);
   }
 }
