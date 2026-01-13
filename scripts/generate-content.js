@@ -578,18 +578,37 @@ async function main() {
     const allKeywords = await getKeywords();
     const { selected, date } = selectKeywordsForToday(allKeywords);
     
-    console.log(`📅 日期: ${date}`);
-    console.log(`📌 今日關鍵字: ${selected.join(', ')}`);
+    console.log(`\n📅 執行日期: ${date}`);
+    console.log(`\n📊 關鍵字統計:`);
+    console.log(`   - 總關鍵字數: ${allKeywords.length}`);
+    console.log(`   - 今日選中: ${selected.length} 個`);
+    console.log(`\n📌 今日選中的關鍵字列表:`);
+    selected.forEach((keyword, index) => {
+      console.log(`   ${index + 1}. ${keyword}`);
+    });
+    console.log(`\n📋 所有可用關鍵字 (${allKeywords.length} 個):`);
+    allKeywords.forEach((keyword, index) => {
+      const isSelected = selected.includes(keyword);
+      console.log(`   ${index + 1}. ${keyword}${isSelected ? ' ✅ (已選中)' : ''}`);
+    });
     
     // 2. 嘗試為每個關鍵字生成文章（直到成功或全部嘗試完）
     let blogPost = null;
     let successKeyword = null;
+    const attemptedKeywords = [];
+    const failedKeywords = [];
+    const existingKeywords = [];
+    
+    console.log(`\n${'='.repeat(60)}`);
+    console.log('🔄 開始生成文章...\n');
     
     for (let i = 0; i < selected.length; i++) {
       const mainKeyword = selected[i];
       const relatedKeywords = selected.filter((_, idx) => idx !== i);
       
-      console.log(`\n✍️  正在為 "${mainKeyword}" 生成文章...`);
+      console.log(`\n[${i + 1}/${selected.length}] ✍️  正在處理關鍵字: "${mainKeyword}"`);
+      console.log(`   相關關鍵字: ${relatedKeywords.join(', ')}`);
+      attemptedKeywords.push(mainKeyword);
       
       try {
         const aiContent = await generateBlogPost(mainKeyword, relatedKeywords);
@@ -599,31 +618,51 @@ async function main() {
         
         if (blogPost) {
           successKeyword = mainKeyword;
+          console.log(`   ✅ 成功創建文章！`);
           break; // 成功創建，跳出循環
         } else {
-          console.log(`⚠️  "${mainKeyword}" 的文章已存在，嘗試下一個關鍵字...`);
+          console.log(`   ⚠️  文章已存在，跳過`);
+          existingKeywords.push(mainKeyword);
         }
       } catch (error) {
-        console.warn(`⚠️  為 "${mainKeyword}" 生成文章失敗: ${error.message}`);
-        console.log('嘗試下一個關鍵字...');
+        console.warn(`   ❌ 生成失敗: ${error.message}`);
+        failedKeywords.push({ keyword: mainKeyword, error: error.message });
         continue;
       }
+    }
+    
+    console.log(`\n${'='.repeat(60)}`);
+    console.log('📊 執行結果總結:');
+    console.log(`   - 嘗試的關鍵字: ${attemptedKeywords.length} 個`);
+    if (successKeyword) {
+      console.log(`   - ✅ 成功: ${successKeyword}`);
+    }
+    if (existingKeywords.length > 0) {
+      console.log(`   - ⚠️  已存在: ${existingKeywords.join(', ')}`);
+    }
+    if (failedKeywords.length > 0) {
+      console.log(`   - ❌ 失敗: ${failedKeywords.map(f => f.keyword).join(', ')}`);
     }
     
     if (blogPost) {
       // 4. 更新索引頁
       updateBlogIndex();
       
-      console.log('\n✅ 完成！');
-      console.log(`📄 新文章: /blog/${blogPost.slug}`);
-      console.log(`🔗 URL: https://pv991.com/blog/${blogPost.slug}`);
-      console.log(`📝 關鍵字: ${successKeyword}`);
+      console.log(`\n${'='.repeat(60)}`);
+      console.log('✅ 完成！');
+      console.log(`📄 新文章路徑: /blog/${blogPost.slug}`);
+      console.log(`🔗 完整 URL: https://pv991.com/blog/${blogPost.slug}`);
+      console.log(`📝 使用的關鍵字: ${successKeyword}`);
+      console.log(`📅 發布日期: ${date}`);
+      console.log(`\n${'='.repeat(60)}`);
       
       process.exit(0);
     } else {
       // 所有關鍵字都已經有文章了，這是正常情況
-      console.log('\n✅ 今日所有關鍵字的文章都已存在');
+      console.log(`\n${'='.repeat(60)}`);
+      console.log('✅ 今日所有關鍵字的文章都已存在');
       console.log('ℹ️  沒有新內容需要生成');
+      console.log(`\n📌 已檢查的關鍵字: ${attemptedKeywords.join(', ')}`);
       
       // 仍然更新索引頁（以防有新文章）
       updateBlogIndex();
