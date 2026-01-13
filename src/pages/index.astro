@@ -245,32 +245,34 @@ const schemaOrg = {
         
         <div class="games-grid">
           {games.map(game => (
-            <a 
-              href={platforms[0]?.url || '#'} 
-              class="game-card" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              aria-label={`${game.name} - ${game.provider} - 點擊進入遊戲`}
-            >
-              <div class="game-image">
-                <!-- 遊戲圖片 -->
-                <img 
-                  src={`/images/games/${game.img}`} 
-                  alt={`${game.name} - ${game.provider}`} 
-                  loading="lazy"
-                  onerror="this.onerror=null; this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';"
-                >
-                
-                <!-- 佔位符 (圖片載入失敗時顯示) -->
-                <div class="game-placeholder" style="display: none;">{game.name}<br>圖片位置</div>
-                
-                <div class="game-badge">{game.badge}</div>
-              </div>
-              <div class="game-info">
-                <h3 class="game-title">{game.name}</h3>
-                <p>{game.provider}</p>
-              </div>
-            </a>
+            <article class="game-card">
+              <a 
+                href={platforms[0]?.url || '#'} 
+                class="game-link" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label={`${game.name} - ${game.provider} - 點擊進入遊戲`}
+              >
+                <div class="game-image">
+                  <!-- 遊戲圖片 -->
+                  <img 
+                    src={`/images/games/${game.img}`} 
+                    alt={`${game.name} - ${game.provider}`} 
+                    loading="lazy"
+                    onerror="this.onerror=null; this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';"
+                  >
+                  
+                  <!-- 佔位符 (圖片載入失敗時顯示) -->
+                  <div class="game-placeholder" style="display: none;">{game.name}<br>圖片位置</div>
+                  
+                  <div class="game-badge">{game.badge}</div>
+                </div>
+                <div class="game-info">
+                  <h3 class="game-title">{game.name}</h3>
+                  <p>{game.provider}</p>
+                </div>
+              </a>
+            </article>
           ))}
         </div>
       </section>
@@ -719,12 +721,16 @@ const schemaOrg = {
       background: #2a2d3e;
       border-radius: 12px;
       overflow: hidden;
-      cursor: pointer;
       transition: all 0.3s;
       border: 2px solid transparent;
+      display: block;
+    }
+
+    .game-link {
       text-decoration: none;
       display: block;
       color: inherit;
+      cursor: pointer;
     }
 
     .game-card:hover {
@@ -733,7 +739,7 @@ const schemaOrg = {
       box-shadow: 0 12px 30px rgba(255, 215, 0, 0.3);
     }
 
-    .game-card:active {
+    .game-link:active {
       transform: translateY(-4px);
     }
 
