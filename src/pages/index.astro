@@ -244,14 +244,18 @@ const schemaOrg = {
         <h2 id="games-title" class="section-title">အများကြိုက်ဂိမ်းများ</h2>
         
         <div class="games-grid">
-          {games.map(game => (
+          {games.map((game, index) => {
+            // 平均分配平台連結：12個遊戲分配到9個平台，循環使用
+            const platformIndex = index % platforms.length;
+            const platform = platforms[platformIndex];
+            return (
             <article class="game-card">
               <a 
-                href={platforms[0]?.url || '#'} 
+                href={platform?.url || '#'} 
                 class="game-link" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                aria-label={`${game.name} - ${game.provider} - 點擊進入遊戲`}
+                aria-label={`${game.name} - ${game.provider} - 點擊進入 ${platform?.name || '遊戲平台'}`}
               >
                 <div class="game-image">
                   <!-- 遊戲圖片 -->
