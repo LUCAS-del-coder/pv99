@@ -16,6 +16,12 @@ const ogImage = "/images/og-image.jpg";
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+  <!-- 地理位置定位 Meta 標籤 - 針對緬甸市場 -->
+  <meta name="geo.region" content="MM" />
+  <meta name="geo.placename" content="Myanmar" />
+  <meta name="geo.position" content="21.9162;95.9560" />
+  <meta name="ICBM" content="21.9162, 95.9560" />
+  
   <!-- Favicon (瀏覽器標籤頁圖標) - 使用相對路徑 -->
   <link rel="icon" type="image/png" sizes="192x192" href="/site-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/site-icon.png">
@@ -45,6 +51,11 @@ const ogImage = "/images/og-image.jpg";
   
   <!-- Canonical URL -->
   <link rel="canonical" href={`${siteUrl}${Astro.url.pathname}`}>
+  
+  <!-- Hreflang 標籤 - 指定緬甸為目標市場 -->
+  <link rel="alternate" hreflang="my-MM" href={`${siteUrl}${Astro.url.pathname}`} />
+  <link rel="alternate" hreflang="my" href={`${siteUrl}${Astro.url.pathname}`} />
+  <link rel="alternate" hreflang="x-default" href={`${siteUrl}${Astro.url.pathname}`} />
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">

@@ -117,10 +117,57 @@ const schemaOrg = {
   "name": "PV99",
   "description": description,
   "url": siteUrl,
+  "inLanguage": "my-MM",
+  "availableLanguage": {
+    "@type": "Language",
+    "name": "Burmese",
+    "alternateName": "Myanmar"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Myanmar",
+    "alternateName": "မြန်မာ",
+    "sameAs": "https://en.wikipedia.org/wiki/Myanmar"
+  },
   "potentialAction": {
     "@type": "SearchAction",
     "target": `${siteUrl}/search?q={search_term_string}`,
     "query-input": "required name=search_term_string"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PV99",
+    "url": siteUrl,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/images/favicon.png`
+    }
+  }
+};
+
+// LocalBusiness Schema for local SEO
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "PV99",
+  "image": `${siteUrl}/images/favicon.png`,
+  "description": description,
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "MM",
+    "addressRegion": "Yangon"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "16.8661",
+    "longitude": "96.1951"
+  },
+  "url": siteUrl,
+  "priceRange": "$$",
+  "openingHours": "Mo-Su 00:00-23:59",
+  "areaServed": {
+    "@type": "Country",
+    "name": "Myanmar"
   }
 };
 ---
@@ -170,6 +217,7 @@ const schemaOrg = {
   
   <!-- Schema.org structured data -->
   <script type="application/ld+json" is:inline set:html={JSON.stringify(schemaOrg)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(localBusinessSchema)} />
   
   <!-- Preconnect to external resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -532,6 +580,16 @@ const schemaOrg = {
           <a href="https://shwecasino99.com" target="_blank" rel="nofollow noopener noreferrer" style="color: #6c7080; text-decoration: none;">shwecasino99.com</a> | 
           <a href="https://yz09.com" target="_blank" rel="nofollow noopener noreferrer" style="color: #6c7080; text-decoration: none;">yz09.com</a>
         </p>
+        
+        <!-- 本地化聯繫信息 -->
+        <div class="contact-info" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+          <p style="font-size: 12px; color: #6c7080; line-height: 1.8; margin: 5px 0;">
+            📞 聯繫電話: +95 123 456 789 | 
+            💰 支持貨幣: MMK (緬甸元) | 
+            🕐 服務時間: 24/7 (Myanmar Time - UTC+6:30) | 
+            📍 服務地區: Myanmar (မြန်မာနိုင်ငံ)
+          </p>
+        </div>
       </div>
     </div>
   </footer>

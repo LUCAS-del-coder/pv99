@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://pv99.com/sitemap.xml
+Sitemap: https://pv991.com/sitemap.xml
 
 # Allow all major search engines
 User-agent: Googlebot
